@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="MyView">
+        <attr name="default_size" format="dimension" />
+        <attr name="radius" format="dimension" />
+    </declare-styleable>
+</resources>

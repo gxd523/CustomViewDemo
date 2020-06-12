@@ -1,10 +1,46 @@
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
+    <com.demo.customview.MyView
+        android:layout_width="match_parent"
+        android:layout_height="300px"
+        android:layout_marginLeft="100px"
+        android:background="#3f0f"
+        android:visibility="visible" />
+
+    <com.demo.customview.VerticalLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</FrameLayout>
+        android:background="#ff9900">
+
+        <View
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="50px"
+            android:layout_marginRight="50px"
+            android:layout_marginBottom="50px"
+            android:background="#0ff" />
+
+        <View
+            android:layout_width="150px"
+            android:layout_height="100px"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="50px"
+            android:layout_marginRight="50px"
+            android:layout_marginBottom="50px"
+            android:background="#f0f" />
+
+        <View
+            android:layout_width="100px"
+            android:layout_height="200px"
+            android:layout_marginLeft="50px"
+            android:layout_marginTop="50px"
+            android:layout_marginRight="50px"
+            android:layout_marginBottom="50px"
+            android:background="#ff0" />
+    </com.demo.customview.VerticalLayout>
+</LinearLayout>
