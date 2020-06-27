@@ -1,17 +1,22 @@
 package com.demo.customview.pager;
 
 import android.annotation.SuppressLint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by guoxiaodong on 2020/6/19 15:37
  */
-public class PagerLayoutManager extends RecyclerView.LayoutManager {
+public class PagerLayoutManager extends RecyclerView.LayoutManager implements RecyclerView.SmoothScroller.ScrollVectorProvider {
     /**
      * 行数
      */
@@ -53,6 +58,11 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager {
      * 最大允许滑动的高度
      */
     private int mMaxScrollY;
+    /**
+     * 当前页面下标
+     */
+    private int pageIndex = -1;
+    private RecyclerView mRecyclerView;
 
     public PagerLayoutManager(int rows, int columns, OrientationType orientation) {
         this.mOrientation = orientation;
@@ -68,22 +78,17 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager {
             return;
         }
 
-//        if (getItemCount() == 0) {
-//            removeAndRecycleAllViews(recycler);
-//            // 页面变化回调
-//            setPageCount(0);
-//            setPageIndex(0, false);
-//            return;
-//        } else {
-//            setPageCount(getTotalPageCount());
-//            setPageIndex(getPageIndexByOffset(), false);
-//        }
+        if (getItemCount() == 0) {
+            removeAndRecycleAllViews(recycler);
+            // 页面变化回调
+            setPageIndex(0, false);
+            return;
+        } else {
+            setPageIndex(getPageIndexByOffset(), false);
+        }
 
         // 计算页面数量
-        int pageCount = getItemCount() / mPageSize;
-        if (getItemCount() % mPageSize != 0) {
-            pageCount++;
-        }
+        int pageCount = getPageCount();
 
         // 计算可以滚动的最大数值，并对滚动距离进行修正
         if (canScrollHorizontally()) {
@@ -124,6 +129,15 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager {
         }
 
         recycleAndFillItems(recycler, state, true);
+    }
+
+    @Override
+    public void onLayoutCompleted(RecyclerView.State state) {
+        super.onLayoutCompleted(state);
+        if (state.isPreLayout()) {
+            return;
+        }
+        setPageIndex(getPageIndexByOffset(), false);
     }
 
     /**
@@ -243,7 +257,7 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager {
      *
      * @return 页面 Index
      */
-    private int getPageIndexByOffset() {
+    int getPageIndexByOffset() {
         int pageIndex;
         if (canScrollVertically()) {
             int pageHeight = getHeightWithoutPadding();
@@ -287,7 +301,7 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager {
             result = -mOffsetX;
         }
         mOffsetX += result;
-//        setPageIndex(getPageIndexByOffset(), true);
+        setPageIndex(getPageIndexByOffset(), true);
         offsetChildrenHorizontal(-result);
         return result;
     }
@@ -310,10 +324,83 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager {
             result = 0 - mOffsetY;
         }
         mOffsetY += result;
-//        setPageIndex(getPageIndexByOffset(), true);
+        setPageIndex(getPageIndexByOffset(), true);
         offsetChildrenVertical(-result);
         recycleAndFillItems(recycler, state, result > 0);
         return result;
+    }
+
+    @Override
+    public void scrollToPosition(int position) {
+        int pageIndex = position / mPageSize;
+        scrollToPage(pageIndex);
+    }
+
+    @Override
+    public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
+        int targetPageIndex = position / mPageSize;
+        smoothScrollToPage(targetPageIndex);
+    }
+
+    /**
+     * 平滑滚动到指定页面
+     *
+     * @param pageIndex 页面下标
+     */
+    public void smoothScrollToPage(int pageIndex) {
+        if (null == mRecyclerView || pageIndex < 0 || pageIndex >= getPageCount()) {
+            return;
+        }
+        // 如果滚动到页面之间距离过大，先直接滚动到目标页面到临近页面，在使用 smoothScroll 最终滚动到目标
+        // 否则在滚动距离很大时，会导致滚动耗费的时间非常长
+        int currentPageIndex = getPageIndexByOffset();
+        if (Math.abs(pageIndex - currentPageIndex) > 3) {
+            if (pageIndex > currentPageIndex) {
+                scrollToPage(pageIndex - 3);
+            } else if (pageIndex < currentPageIndex) {
+                scrollToPage(pageIndex + 3);
+            }
+        }
+
+        // 具体执行滚动
+        LinearSmoothScroller smoothScroller = new PagerSmoothScroller(mRecyclerView);
+        int position = pageIndex * mPageSize;
+        smoothScroller.setTargetPosition(position);
+        startSmoothScroll(smoothScroller);
+    }
+
+    /**
+     * 滚动到指定页面
+     *
+     * @param pageIndex 页面下标
+     */
+    public void scrollToPage(int pageIndex) {
+        if (null == mRecyclerView || pageIndex < 0 || pageIndex >= getPageCount()) {
+            return;
+        }
+
+        int mTargetOffsetXBy;
+        int mTargetOffsetYBy;
+        if (canScrollVertically()) {
+            mTargetOffsetXBy = 0;
+            mTargetOffsetYBy = pageIndex * getHeightWithoutPadding() - mOffsetY;
+        } else {
+            mTargetOffsetXBy = pageIndex * getWidthWithoutPadding() - mOffsetX;
+            mTargetOffsetYBy = 0;
+        }
+        mRecyclerView.scrollBy(mTargetOffsetXBy, mTargetOffsetYBy);
+        setPageIndex(pageIndex, false);
+    }
+
+    /**
+     * 监听滚动状态，滚动结束后通知当前选中的页面
+     */
+    @Override
+    public void onScrollStateChanged(int state) {
+        super.onScrollStateChanged(state);
+        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+            setPageIndex(getPageIndexByOffset(), false);
+        }
     }
 
     private int getWidthWithoutPadding() {
@@ -337,6 +424,159 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager {
     @Override
     public boolean canScrollVertically() {
         return mOrientation == OrientationType.VERTICAL;
+    }
+
+    /**
+     * 计算到目标位置需要滚动的距离
+     * {@link RecyclerView.SmoothScroller.ScrollVectorProvider}
+     *
+     * @param targetPosition 目标控件的位置
+     * @return 需要滚动的距离
+     */
+    @Nullable
+    @Override
+    public PointF computeScrollVectorForPosition(int targetPosition) {
+        PointF vector = new PointF();
+        int[] offset = getSnapOffset(targetPosition);
+        vector.x = offset[0];
+        vector.y = offset[1];
+        return vector;
+    }
+
+    /**
+     * 获取Item页内偏移量
+     * 为{@link MyPagerSnapHelper}准备，用于分页滚动，确定需要滚动的距离。
+     *
+     * @param snapPosition 需要对齐的ItemView(对于分页布局就是页面第一个)的position
+     */
+    int[] getSnapOffset(int snapPosition) {
+        int[] offset = new int[2];
+        int[] pos = getPageXyByItemPos(snapPosition);
+        offset[0] = pos[0] - mOffsetX;
+        offset[1] = pos[1] - mOffsetY;
+        return offset;
+    }
+
+    /**
+     * 根据Item的position获取该Item所在页面的左上角x、y坐标
+     *
+     * @return 左上角x、y坐标
+     */
+    private int[] getPageXyByItemPos(int position) {
+        int[] leftTop = new int[2];
+        int page = position / mPageSize;
+        if (canScrollHorizontally()) {
+            leftTop[0] = page * getWidthWithoutPadding();
+            leftTop[1] = 0;
+        } else {
+            leftTop[0] = 0;
+            leftTop[1] = page * getHeightWithoutPadding();
+        }
+        return leftTop;
+    }
+
+    /**
+     * @return 需要对齐的ItemView(每页的第一个View)
+     */
+    public View findSnapView() {
+        if (getChildCount() <= 0) {
+            return null;
+        }
+        if (null != getFocusedChild()) {// TV适配
+            return getFocusedChild();
+        }
+        int targetPos = getPageIndexByOffset() * mPageSize;// 目标Pos
+        for (int i = 0; i < getChildCount(); i++) {
+            View itemView = getChildAt(i);
+            if (itemView != null) {
+                int childPos = getPosition(itemView);
+                if (childPos == targetPos) {
+                    return itemView;
+                }
+            }
+        }
+        return getChildAt(0);
+    }
+
+    /**
+     * 设置当前选中页面
+     *
+     * @param pageIndex   页面下标
+     * @param isScrolling 是否处于滚动状态
+     */
+    private void setPageIndex(int pageIndex, boolean isScrolling) {
+        if (pageIndex == this.pageIndex) {
+            return;
+        }
+        if (true) {// 如果允许连续滚动，那么在滚动过程中就会更新页码记录
+            this.pageIndex = pageIndex;
+        } else {// 否则，只有等滚动停下时才会更新页码记录
+            if (!isScrolling) {
+                this.pageIndex = pageIndex;
+            }
+        }
+//        if (isScrolling && !mChangeSelectInScrolling) {
+//            return;
+//        }
+        if (pageIndex >= 0) {
+//            if (null != mPageListener) {
+//                mPageListener.onPageSelect(pageIndex);
+//            }
+        }
+    }
+
+    /**
+     * @return 下一页第一个Item的position
+     */
+    int findNextPageFirstItem() {
+        int nextPage = pageIndex;
+        nextPage++;
+        if (nextPage >= getPageCount()) {
+            nextPage = getPageCount() - 1;
+        }
+        return nextPage * mPageSize;
+    }
+
+    /**
+     * @return 上一页的第一个Item的position
+     */
+    int findPrePageFirstItem() {
+        int previousPage = pageIndex;
+        previousPage--;
+        if (previousPage < 0) {
+            previousPage = 0;
+        }
+        return previousPage * mPageSize;
+    }
+
+    /**
+     * 获取总页数
+     */
+    private int getPageCount() {
+        int pageCount = getItemCount() / mPageSize;
+        if (getItemCount() % mPageSize != 0) {
+            pageCount++;
+        }
+        return pageCount;
+    }
+
+    @Override
+    public void onAttachedToWindow(RecyclerView view) {
+        super.onAttachedToWindow(view);
+        mRecyclerView = view;
+    }
+
+    @Override
+    public boolean requestChildRectangleOnScreen(@NonNull RecyclerView parent, @NonNull View child, @NonNull Rect rect,
+                                                 boolean immediate, boolean focusedChildVisible) {
+        return super.requestChildRectangleOnScreen(parent, child, rect, immediate, focusedChildVisible);
+    }
+
+    boolean isKeyToNextOrPrePage(int keycode) {
+        View snapView = findSnapView();
+        int position = getPosition(snapView);
+        return keycode == KeyEvent.KEYCODE_DPAD_UP && position % mPageSize < mColumns
+                || keycode == KeyEvent.KEYCODE_DPAD_DOWN && position % mPageSize >= mColumns * 2;
     }
 
     public enum OrientationType {

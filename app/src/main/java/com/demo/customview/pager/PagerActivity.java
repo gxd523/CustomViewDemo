@@ -22,13 +22,8 @@ public class PagerActivity extends BaseActivity {
         setContentView(R.layout.activity_pager);
 
         RecyclerView recyclerView = findViewById(R.id.activity_pager_recycler_view);
-        PagerLayoutManager layoutManager = new PagerLayoutManager(3, 5, PagerLayoutManager.OrientationType.VERTICAL);
-//        layoutManager.setAllowContinuousScroll(true);
-//        layoutManager.setOrientationType(PagerGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-
-//        new PagerGridSnapHelper().attachToRecyclerView(recyclerView);
-//        new PagerSnapHelper().attachToRecyclerView(recyclerView);
+        recyclerView.setLayoutManager(new PagerLayoutManager(3, 5, PagerLayoutManager.OrientationType.VERTICAL));
+        new MyPagerSnapHelper().attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(new RecyclerView.Adapter<PagerViewHolder>() {
             @NonNull
             @Override
@@ -43,7 +38,7 @@ public class PagerActivity extends BaseActivity {
 
             @Override
             public int getItemCount() {
-                return 50;
+                return 200;
             }
         });
     }
@@ -63,7 +58,7 @@ public class PagerActivity extends BaseActivity {
         }
 
         public void setData(int position) {
-            titleTv.setText(String.valueOf(position));
+            titleTv.setText(String.valueOf(position % 15 == 7 ? "A" : position));
         }
     }
 }

@@ -1,21 +1,15 @@
-<LinearLayout
+<TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/adapter_pager_title_tv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:background="#F666"
+    android:focusable="true"
+    android:gravity="center"
+    android:textColor="#FFF"
+    android:textSize="36sp"
     tools:layout_height="160dp"
-    tools:layout_width="184dp">
-
-    <TextView
-        android:id="@+id/adapter_pager_title_tv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:background="#F666"
-        android:focusable="true"
-        android:gravity="center"
-        android:textColor="#FFF"
-        android:textSize="36sp"
-        tools:text="5" />
-</LinearLayout>
+    tools:layout_width="184dp"
+    tools:text="5" />
