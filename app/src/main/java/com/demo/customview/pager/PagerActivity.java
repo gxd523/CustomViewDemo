@@ -1,6 +1,5 @@
 package com.demo.customview.pager;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.demo.customview.R;
-import com.gcssloop.widget.PagerGridSnapHelper;
+import com.demo.customview.base.BaseActivity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Created by guoxiaodong on 2020/6/19 14:00
  */
-public class PagerActivity extends Activity {
+public class PagerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +27,8 @@ public class PagerActivity extends Activity {
 //        layoutManager.setOrientationType(PagerGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        PagerGridSnapHelper pagerSnapHelper = new PagerGridSnapHelper();
-        pagerSnapHelper.attachToRecyclerView(recyclerView);
+//        new PagerGridSnapHelper().attachToRecyclerView(recyclerView);
+//        new PagerSnapHelper().attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(new RecyclerView.Adapter<PagerViewHolder>() {
             @NonNull
             @Override

@@ -5,9 +5,8 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="CustomViewDemo"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
-        <activity android:name=".PagerActivity" />
-        <activity android:name=".MainActivity">
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+        <activity android:name=".pager.PagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,8 +1,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFF">
+    android:layout_height="match_parent">
 
     <com.demo.customview.pager.PagerRecyclerView
         android:id="@+id/activity_pager_recycler_view"
@@ -11,5 +10,6 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"
+        android:background="#4666" />
 </FrameLayout>
