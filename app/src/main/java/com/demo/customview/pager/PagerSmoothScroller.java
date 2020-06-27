@@ -1,6 +1,7 @@
 package com.demo.customview.pager;
 
 import android.util.DisplayMetrics;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,21 +18,26 @@ public class PagerSmoothScroller extends LinearSmoothScroller {
         mRecyclerView = recyclerView;
     }
 
-//    @Override
-//    protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
-//        RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
-//        if (manager instanceof PagerLayoutManager) {
-//            PagerLayoutManager layoutManager = (PagerLayoutManager) manager;
-//            int snapPosition = mRecyclerView.getChildAdapterPosition(targetView);
-//            int[] snapDistances = layoutManager.getSnapOffset(snapPosition);
-//            final int dx = snapDistances[0];
-//            final int dy = snapDistances[1];
-//            final int time = calculateTimeForScrolling(Math.max(Math.abs(dx), Math.abs(dy)));
-//            if (time > 0) {
-//                action.update(dx, dy, time, mDecelerateInterpolator);
-//            }
-//        }
-//    }
+    @Override
+    protected void onTargetFound(View targetView, RecyclerView.State state, Action action) {
+        RecyclerView.LayoutManager manager = mRecyclerView.getLayoutManager();
+        if (manager instanceof PagerLayoutManager) {
+            PagerLayoutManager layoutManager = (PagerLayoutManager) manager;
+            int snapPosition = mRecyclerView.getChildAdapterPosition(targetView);
+            int[] snapDistances = layoutManager.getSnapOffset(snapPosition);
+            final int dx = snapDistances[0];
+            final int dy = snapDistances[1];
+            final int time = calculateTimeForScrolling(Math.max(Math.abs(dx), Math.abs(dy)));
+            if (time > 0) {
+                action.update(dx, dy, time, mDecelerateInterpolator);
+            }
+        }
+    }
+
+    @Override
+    public int calculateDtToFit(int viewStart, int viewEnd, int boxStart, int boxEnd, int snapPreference) {
+        return super.calculateDtToFit(viewStart, viewEnd, boxStart, boxEnd, snapPreference);
+    }
 
     /**
      * 控制滚动速度

@@ -14,7 +14,7 @@ public class MyPagerSnapHelper extends SnapHelper {
     /**
      * Flying触发速度阈值
      */
-    private static final int MINIMUM_FLING_VELOCITY = 50;
+    private static final int MINIMUM_FLING_VELOCITY = 25;
     private RecyclerView mRecyclerView;
 
     /**

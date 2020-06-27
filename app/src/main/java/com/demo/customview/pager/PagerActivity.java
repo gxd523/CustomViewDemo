@@ -58,7 +58,8 @@ public class PagerActivity extends BaseActivity {
         }
 
         public void setData(int position) {
-            titleTv.setText(String.valueOf(position % 15 == 7 ? "A" : position));
+            String text = position % 15 == 7 ? String.format("第%s页", position / 15) : String.valueOf(position);
+            titleTv.setText(text);
         }
     }
 }

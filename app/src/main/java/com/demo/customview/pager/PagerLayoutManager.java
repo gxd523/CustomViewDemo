@@ -80,7 +80,6 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager implements Re
 
         if (getItemCount() == 0) {
             removeAndRecycleAllViews(recycler);
-            // 页面变化回调
             setPageIndex(0, false);
             return;
         } else {
@@ -458,24 +457,6 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager implements Re
     }
 
     /**
-     * 根据Item的position获取该Item所在页面的左上角x、y坐标
-     *
-     * @return 左上角x、y坐标
-     */
-    private int[] getPageXyByItemPos(int position) {
-        int[] leftTop = new int[2];
-        int page = position / mPageSize;
-        if (canScrollHorizontally()) {
-            leftTop[0] = page * getWidthWithoutPadding();
-            leftTop[1] = 0;
-        } else {
-            leftTop[0] = 0;
-            leftTop[1] = page * getHeightWithoutPadding();
-        }
-        return leftTop;
-    }
-
-    /**
      * @return 需要对齐的ItemView(每页的第一个View)
      */
     public View findSnapView() {
@@ -499,6 +480,24 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager implements Re
     }
 
     /**
+     * 根据Item的position获取该Item所在页面的左上角x、y坐标
+     *
+     * @return 左上角x、y坐标
+     */
+    private int[] getPageXyByItemPos(int position) {
+        int[] leftTop = new int[2];
+        int page = position / mPageSize;
+        if (canScrollHorizontally()) {
+            leftTop[0] = page * getWidthWithoutPadding();
+            leftTop[1] = 0;
+        } else {
+            leftTop[0] = 0;
+            leftTop[1] = page * getHeightWithoutPadding();
+        }
+        return leftTop;
+    }
+
+    /**
      * 设置当前选中页面
      *
      * @param pageIndex   页面下标
@@ -508,21 +507,7 @@ public class PagerLayoutManager extends RecyclerView.LayoutManager implements Re
         if (pageIndex == this.pageIndex) {
             return;
         }
-        if (true) {// 如果允许连续滚动，那么在滚动过程中就会更新页码记录
-            this.pageIndex = pageIndex;
-        } else {// 否则，只有等滚动停下时才会更新页码记录
-            if (!isScrolling) {
-                this.pageIndex = pageIndex;
-            }
-        }
-//        if (isScrolling && !mChangeSelectInScrolling) {
-//            return;
-//        }
-        if (pageIndex >= 0) {
-//            if (null != mPageListener) {
-//                mPageListener.onPageSelect(pageIndex);
-//            }
-        }
+        this.pageIndex = pageIndex;
     }
 
     /**
