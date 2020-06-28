@@ -46,13 +46,6 @@ public class MainActivity extends BaseActivity {
         }};
 
         dataBinding.pieView.setPieList(pieBeanList);
-
-        dataBinding.pieView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     public void onClick(View view) {
@@ -63,6 +56,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.my_view:
                 activityClass = SnapHelperActivity.class;
+                break;
             default:
                 activityClass = SnapHelperActivity.class;
         }
