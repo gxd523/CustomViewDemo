@@ -1,46 +1,70 @@
-<LinearLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.demo.customview.MyView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="300px"
-        android:layout_marginLeft="100px"
-        android:background="#3f0f"
-        android:visibility="visible" />
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
 
-    <com.demo.customview.VerticalLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ff9900">
+        <com.demo.customview.pie.PieView
+            android:id="@+id/pie_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/sel_focus"
+            android:focusable="true"
+            android:onClick="onClick"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:layout_marginLeft="50px"
-            android:layout_marginTop="50px"
-            android:layout_marginRight="50px"
-            android:layout_marginBottom="50px"
-            android:background="#0ff" />
+        <com.demo.customview.view.MyView
+            android:id="@+id/my_view"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/sel_focus"
+            android:focusable="true"
+            android:onClick="onClick"
+            android:visibility="visible"
+            app:layout_constraintLeft_toRightOf="@id/pie_view"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="150px"
-            android:layout_height="100px"
-            android:layout_marginLeft="50px"
-            android:layout_marginTop="50px"
-            android:layout_marginRight="50px"
-            android:layout_marginBottom="50px"
-            android:background="#f0f" />
+        <com.demo.customview.layout.VerticalLayout
+            android:id="@+id/vertical_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/sel_focus"
+            android:focusable="true"
+            app:layout_constraintLeft_toRightOf="@id/my_view"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:layout_width="100px"
-            android:layout_height="200px"
-            android:layout_marginLeft="50px"
-            android:layout_marginTop="50px"
-            android:layout_marginRight="50px"
-            android:layout_marginBottom="50px"
-            android:background="#ff0" />
-    </com.demo.customview.VerticalLayout>
-</LinearLayout>
+            <View
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="50px"
+                android:layout_marginRight="50px"
+                android:layout_marginBottom="50px"
+                android:background="#0ff" />
+
+            <View
+                android:layout_width="150px"
+                android:layout_height="100px"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="50px"
+                android:layout_marginRight="50px"
+                android:layout_marginBottom="50px"
+                android:background="#f0f" />
+
+            <View
+                android:layout_width="100px"
+                android:layout_height="200px"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="50px"
+                android:layout_marginRight="50px"
+                android:layout_marginBottom="50px"
+                android:background="#ff0" />
+        </com.demo.customview.layout.VerticalLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

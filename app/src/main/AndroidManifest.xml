@@ -6,12 +6,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="CustomViewDemo"
         android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
-        <activity android:name=".pager.PagerActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".snaphelper.SnapHelperActivity" />
+        <activity android:name=".pager.PagerActivity" />
     </application>
 </manifest>

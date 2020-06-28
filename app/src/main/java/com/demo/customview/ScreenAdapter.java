@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 public class ScreenAdapter {
     private static final float DESIGN_DP_WIDTH = 960;
@@ -30,6 +31,7 @@ public class ScreenAdapter {
         }
 
         final float targetDensity = applicationDisplayMetrics.widthPixels / DESIGN_DP_WIDTH;
+        Log.d("gxd", "density-->" + targetDensity);
         final float targetScaleDensity = targetDensity * (originalApplicationScaleDensity / originalApplicationDensity);
         final int targetDensityDpi = (int) (160 * targetDensity);
 
