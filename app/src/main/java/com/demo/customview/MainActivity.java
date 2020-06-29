@@ -1,8 +1,10 @@
 package com.demo.customview;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 
 import com.demo.customview.base.BaseActivity;
@@ -46,6 +48,8 @@ public class MainActivity extends BaseActivity {
         }};
 
         dataBinding.pieView.setPieList(pieBeanList);
+
+        dataBinding.textView.setMovementMethod(new ScrollingMovementMethod());
     }
 
     public void onClick(View view) {
@@ -58,7 +62,7 @@ public class MainActivity extends BaseActivity {
                 activityClass = SnapHelperActivity.class;
                 break;
             default:
-                activityClass = SnapHelperActivity.class;
+                activityClass = MainActivity.class;
         }
         startActivity(new Intent(MainActivity.this, activityClass));
     }

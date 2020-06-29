@@ -36,6 +36,7 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/sel_focus"
             android:focusable="true"
+            android:onClick="onClick"
             app:layout_constraintLeft_toRightOf="@id/my_view"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -66,5 +67,19 @@
                 android:layout_marginBottom="50px"
                 android:background="#ff0" />
         </com.demo.customview.layout.VerticalLayout>
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/sel_focus"
+            android:fadingEdgeLength="50dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:requiresFadingEdge="vertical"
+            android:text="为什么要说Fading Edge？这个在我们平时开发中并不怎么起眼的API其实是View绘制过程中重要的一步，绕不过的坎！可是要理解源码，我们就得先知道这个Fading Edge到底是干什么的？从字面来理解，这个是实现边缘渐变效果的，OK，那我们先来看看效果图：fadingEdgeLength表示阴影部分的高度，requiresFadingEdge表示阴影的方向。方向可以是水平的，也可以是垂直的。水平效果我一会再说。当然，如果我们只是在xml文件中这样写，TextView还是无法滚动起来，还需要在Activity中添加如下一行代码，TextView才能滚动起来，如下："
+            app:layout_constraintLeft_toRightOf="@id/vertical_layout"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
