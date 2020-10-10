@@ -1,11 +1,13 @@
 package com.demo.customview.snaphelper;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.demo.customview.R;
+import com.demo.customview.pager.PagerActivity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,10 +51,16 @@ public class SnapHelperAdapter extends RecyclerView.Adapter<SnapHelperAdapter.Ga
         private ImageView mImageView;
         private TextView mTextView;
 
-        public GalleryViewHolder(ViewGroup parent) {
+        public GalleryViewHolder(final ViewGroup parent) {
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_gallery, parent, false));
             mImageView = (ImageView) itemView.findViewById(R.id.image);
             mTextView = (TextView) itemView.findViewById(R.id.tv_num);
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PagerActivity.startActivity(v.getContext());
+                }
+            });
         }
     }
 }

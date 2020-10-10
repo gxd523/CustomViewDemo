@@ -1,7 +1,6 @@
 package com.demo.customview;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -56,11 +55,11 @@ public class MainActivity extends BaseActivity {
         Class<? extends Activity> activityClass;
         switch (view.getId()) {
             case R.id.pie_view:
-                activityClass = PagerActivity.class;
-                break;
+                PagerActivity.startActivity(this);
+                return;
             case R.id.my_view:
-                activityClass = SnapHelperActivity.class;
-                break;
+                SnapHelperActivity.startActivity(this);
+                return;
             default:
                 activityClass = MainActivity.class;
         }

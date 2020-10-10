@@ -4,7 +4,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath 'com.android.tools.build:gradle:4.0.1'
     }
 }
 
@@ -12,6 +12,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "http://lib.gcssloop.com/repository/gcssloop-central/" }
     }
 }
 

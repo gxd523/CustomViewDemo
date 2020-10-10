@@ -19,4 +19,5 @@ android {
 dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.gcssloop.recyclerview:pagerlayoutmanager:2.3.8'
 }

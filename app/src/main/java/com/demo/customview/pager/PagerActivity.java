@@ -1,5 +1,7 @@
 package com.demo.customview.pager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 
 import com.demo.customview.R;
 import com.demo.customview.base.BaseActivity;
+import com.demo.customview.snaphelper.SnapHelperActivity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
  * Created by guoxiaodong on 2020/6/19 14:00
  */
 public class PagerActivity extends BaseActivity {
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, PagerActivity.class);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +61,12 @@ public class PagerActivity extends BaseActivity {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     v.setBackgroundColor(hasFocus ? 0x66FF00FF : 0xFF666666);
+                }
+            });
+            titleTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SnapHelperActivity.startActivity(v.getContext());
                 }
             });
         }
