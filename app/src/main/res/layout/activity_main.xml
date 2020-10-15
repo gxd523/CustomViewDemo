@@ -44,27 +44,27 @@
                 android:layout_width="100px"
                 android:layout_height="100px"
                 android:layout_marginLeft="50px"
-                android:layout_marginTop="50px"
-                android:layout_marginRight="50px"
-                android:layout_marginBottom="50px"
+                android:layout_marginTop="25px"
+                android:layout_marginRight="25px"
+                android:layout_marginBottom="25px"
                 android:background="#0ff" />
 
             <View
                 android:layout_width="150px"
                 android:layout_height="100px"
-                android:layout_marginLeft="50px"
-                android:layout_marginTop="50px"
-                android:layout_marginRight="50px"
-                android:layout_marginBottom="50px"
+                android:layout_marginLeft="25px"
+                android:layout_marginTop="25px"
+                android:layout_marginRight="25px"
+                android:layout_marginBottom="25px"
                 android:background="#f0f" />
 
             <View
                 android:layout_width="100px"
                 android:layout_height="200px"
-                android:layout_marginLeft="50px"
-                android:layout_marginTop="50px"
-                android:layout_marginRight="50px"
-                android:layout_marginBottom="50px"
+                android:layout_marginLeft="25px"
+                android:layout_marginTop="25px"
+                android:layout_marginRight="25px"
+                android:layout_marginBottom="25px"
                 android:background="#ff0" />
         </com.demo.customview.layout.VerticalLayout>
 

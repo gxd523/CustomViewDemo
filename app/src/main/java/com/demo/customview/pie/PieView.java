@@ -46,6 +46,9 @@ public class PieView extends View {
         canvas.translate(mWidth >> 1, mHeight >> 1);
 
         float currentAngle = mStartAngle;
+        if (pieBeanList == null) {
+            return;
+        }
         for (PieBean pieBean : pieBeanList) {
             mPaint.setColor(pieBean.getColor());
             float tempAngle = pieBean.getPercent() * 360;
