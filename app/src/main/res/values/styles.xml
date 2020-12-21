@@ -1,6 +1,25 @@
 <resources>
+
+    <style name="Splash" parent="android:Theme.Light.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/a</item>
+    </style>
+
     <declare-styleable name="MyView">
         <attr name="default_size" format="dimension" />
         <attr name="radius" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="MyShadowView">
+        <attr name="shadowRadius" format="dimension" />
+        <attr name="shadowDx" format="dimension" />
+        <attr name="shadowDy" format="dimension" />
+        <attr name="shadowWidth" format="dimension" />
+        <attr name="shadowHeight" format="dimension" />
+        <attr name="shadowColor" format="color" />
+        <attr name="shadowType" format="flags" />
+    </declare-styleable>
+
+    <style name="Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">#FF00FF</item>
+    </style>
 </resources>
