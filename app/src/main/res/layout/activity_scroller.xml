@@ -10,11 +10,13 @@
         android:text="aaaaaaa" />
 
     <Button
+        android:id="@+id/activity_scroller_b_btn"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:text="bbbbbbb" />
 
     <Button
+        android:id="@+id/activity_scroller_c_btn"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:text="ccccccc" />

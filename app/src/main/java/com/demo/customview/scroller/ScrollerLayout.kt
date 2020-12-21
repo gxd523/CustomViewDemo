@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.ViewConfiguration
 import android.view.ViewGroup
 import android.widget.Scroller
+import kotlin.math.abs
 
 class ScrollerLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(context, attrs) {
     private val mScroller: Scroller = Scroller(context)
@@ -69,7 +70,7 @@ class ScrollerLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(contex
                 moveX = ev.rawX
                 preMoveX = moveX
                 // 当手指拖动值大于TouchSlop值时，认为应该进行滚动，拦截子控件的事件
-                if (Math.abs(moveX - downX) > mTouchSlop) {
+                if (abs(moveX - downX) > mTouchSlop) {
                     return true
                 }
             }
@@ -82,11 +83,11 @@ class ScrollerLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(contex
             MotionEvent.ACTION_MOVE -> {
                 moveX = event.rawX
                 val scrolledX = (preMoveX - moveX).toInt()
-                if (scrollX + scrolledX < leftBorder) {
-                    scrollTo(leftBorder, 0)
+                if (scrollX + scrolledX < leftBorder - width / 2) {
+                    scrollTo(leftBorder - width / 2, 0)
                     return true
-                } else if (scrollX + width + scrolledX > rightBorder) {
-                    scrollTo(rightBorder - width, 0)
+                } else if (scrollX + width + scrolledX > rightBorder + width / 2) {
+                    scrollTo(rightBorder - width / 2, 0)
                     return true
                 }
                 scrollBy(scrolledX, 0)
@@ -95,7 +96,8 @@ class ScrollerLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(contex
             MotionEvent.ACTION_UP -> {
                 // 当手指抬起时，根据当前的滚动值来判定应该滚动到哪个子控件的界面
                 val targetIndex = (scrollX + width / 2) / width
-                val dx = targetIndex * width - scrollX
+                val finalIndex = if (targetIndex == 3) 2 else targetIndex
+                val dx = finalIndex * width - scrollX
                 // 第二步，调用startScroll()方法来初始化滚动数据并刷新界面
                 mScroller.startScroll(scrollX, 0, dx, 0) // scrollBy(dx, 0);
                 invalidate()
