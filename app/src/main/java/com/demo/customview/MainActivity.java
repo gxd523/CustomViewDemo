@@ -3,66 +3,33 @@ package com.demo.customview;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 
-import com.demo.customview.base.BaseActivity;
-import com.demo.customview.databinding.ActivityMainBinding;
-import com.demo.customview.pager.PagerActivity;
-import com.demo.customview.pie.PieBean;
-import com.demo.customview.snaphelper.SnapHelperActivity;
+import com.demo.customview.scroller.ScrollerActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.Nullable;
 
-import androidx.databinding.DataBindingUtil;
-
-public class MainActivity extends BaseActivity {
-    private ActivityMainBinding dataBinding;
-
+/**
+ * Created by guoxiaodong on 12/21/20 17:14
+ */
+public class MainActivity extends Activity implements View.OnClickListener {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        dataBinding.pieView.setStartAngle(0);
-        List<PieBean> pieBeanList = new ArrayList<PieBean>() {{
-            PieBean pieBean;
-
-            pieBean = new PieBean();
-            pieBean.setPercent(.1f);
-            add(pieBean);
-
-            pieBean = new PieBean();
-            pieBean.setPercent(.2f);
-            add(pieBean);
-
-            pieBean = new PieBean();
-            pieBean.setPercent(.3f);
-            add(pieBean);
-
-            pieBean = new PieBean();
-            pieBean.setPercent(.4f);
-            add(pieBean);
-        }};
-
-        dataBinding.pieView.setPieList(pieBeanList);
-
-        dataBinding.textView.setMovementMethod(new ScrollingMovementMethod());
+        findViewById(R.id.activity_main_scroller_btn).setOnClickListener(this);
     }
 
-    public void onClick(View view) {
-        Class<? extends Activity> activityClass;
-        switch (view.getId()) {
-            case R.id.pie_view:
-                PagerActivity.startActivity(this);
-                return;
-            case R.id.my_view:
-                SnapHelperActivity.startActivity(this);
-                return;
-            default:
-                activityClass = MainActivity.class;
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        switch (v.getId()) {
+            case R.id.activity_main_scroller_btn:
+                intent.setClass(this, ScrollerActivity.class);
+                break;
         }
-        startActivity(new Intent(MainActivity.this, activityClass));
+
+        startActivity(intent);
     }
 }

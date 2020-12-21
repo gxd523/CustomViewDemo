@@ -1,0 +1,21 @@
+<com.demo.customview.scroller.ScrollerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/activity_scroller_a_btn"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:text="aaaaaaa" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:text="bbbbbbb" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:text="ccccccc" />
+</com.demo.customview.scroller.ScrollerLayout>
