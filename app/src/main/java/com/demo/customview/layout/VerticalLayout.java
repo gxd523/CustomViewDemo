@@ -31,12 +31,10 @@ public class VerticalLayout extends ViewGroup {
             width = 0;
             height = 0;
         } else {
-            if (widthMode == MeasureSpec.AT_MOST && heightMode == MeasureSpec.AT_MOST) {// 如果宽高都是包裹内容，我们将高度设置为所有子View的高度相加，宽度设为子View中最大的宽度
-                width = getMaxChildWidth();
+            if (heightMode == MeasureSpec.AT_MOST) {// 如果高度是包裹内容，宽度设置为ViewGroup自己的测量宽度，高度设置为所有子View的高度总和
                 height = getTotalHeight();
-            } else if (heightMode == MeasureSpec.AT_MOST) {// 如果只有高度是包裹内容，宽度设置为ViewGroup自己的测量宽度，高度设置为所有子View的高度总和
-                height = getTotalHeight();
-            } else if (widthMode == MeasureSpec.AT_MOST) {// 如果只有宽度是包裹内容，宽度设置为子View中宽度最大的值，高度设置为ViewGroup自己的测量值
+            }
+            if (widthMode == MeasureSpec.AT_MOST) {// 如果宽度是包裹内容，宽度设置为子View中宽度最大的值，高度设置为ViewGroup自己的测量值
                 width = getMaxChildWidth();
             }
         }
